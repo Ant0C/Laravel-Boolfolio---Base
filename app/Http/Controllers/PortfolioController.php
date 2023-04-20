@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Portfolio;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Http\Requests\StorePortfolioRequest;
 use App\Http\Requests\UpdatePortfolioRequest;
+use App\Models\Portfolio;
 
 class PortfolioController extends Controller
 {
@@ -15,7 +17,9 @@ class PortfolioController extends Controller
      */
     public function index()
     {
-        //
+        $portfolios = Portfolio::all();
+
+        return view('portfolios.index', compact('portfolios'));
     }
 
     /**
@@ -25,13 +29,13 @@ class PortfolioController extends Controller
      */
     public function create()
     {
-        //
+        return view('portfolios.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StorePortfolioRequest  $request
+     * @param  \App\Http\Requests\StorePortfolioRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(StorePortfolioRequest $request)
@@ -42,30 +46,30 @@ class PortfolioController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Portfolio  $portfolio
+     * @param  \App\Models\Portfolio $portfolio
      * @return \Illuminate\Http\Response
      */
     public function show(Portfolio $portfolio)
     {
-        //
+        return view('portfolios.show', compact('portfolio'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Portfolio  $portfolio
+     * @param  \App\Models\Portfolio $portfolio
      * @return \Illuminate\Http\Response
      */
     public function edit(Portfolio $portfolio)
     {
-        //
+        return view('portfolios.edit', compact('portfolio'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdatePortfolioRequest  $request
-     * @param  \App\Models\Portfolio  $portfolio
+     * @param  \App\Http\Requests\UpdatePortfolioRequest $request
+     * @param  \App\Models\Portfolio $portfolio
      * @return \Illuminate\Http\Response
      */
     public function update(UpdatePortfolioRequest $request, Portfolio $portfolio)
@@ -76,11 +80,13 @@ class PortfolioController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Portfolio  $portfolio
+     * @param  \App\Models\Portfolio $portfolio
      * @return \Illuminate\Http\Response
      */
     public function destroy(Portfolio $portfolio)
     {
-        //
+        $portfolio->delete();
+
+        return to_route('portfolios.index');
     }
 }
