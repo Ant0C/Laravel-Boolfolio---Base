@@ -4,14 +4,20 @@
     <h1>index</h1>
 
     <div>
-        <div>
+        <div class="container mb-5 mt-5">
             <h2>
                 Portfolio
             </h2>
         </div>
+        <div>
+            <ul class="container">
+                <li>
+                    <a class="nav-link" href="{{ route('portfolios.create') }}">{{ __('Aggiungi progetto') }}</a>
+                </li>
+            </ul>
+        </div>
         <div class="container">
             <div class="row">
-                @foreach ($portfolios as $item)
                     <table class="table">
                         <thead>
                             <tr>
@@ -24,17 +30,18 @@
                             </tr>
                         </thead>
                         <tbody>
+                        @foreach ($portfolios as $item)
                             <tr>
-                                <th scope="row">{{ $item->id}}</th>
-                                <td>{{ $item->name}}</td>
-                                <td>{{ $item->customer}}</td>
-                                <td>{{ $item->description}}</td>
-                                <td>{{ $item->slug}}</td>
-                                <td>{{ $item->url}}</td>
+                                <th scope="row">{{ $item->id }}</th>
+                                <td><a href="{{ route('portfolios.show',$item) }}">{{ $item->name }}</a></td>
+                                <td>{{ $item->customer }}</td>
+                                <td>{{ $item->description }}</td>
+                                <td>{{ $item->slug }}</td>
+                                <td>{{ $item->url }}</td>
                             </tr>
+                        @endforeach
                         </tbody>
                     </table>
-                @endforeach
             </div>
         </div>
     </div>
