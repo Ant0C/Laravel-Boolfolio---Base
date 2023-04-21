@@ -24,10 +24,10 @@ class StorePortfolioRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=> 'required|max:200|unique:portfolios,name',
-            'customer'=>'required|string',
-            'description' => 'nullable|string',
-            'url'=>'nullable|url'
+            'name'=> 'required|unique:portfolios,name',
+            'customer'=>'string',
+            'description' => 'string',
+            'url'=>'url'
         ];
     }
 }

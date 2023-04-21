@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\StorePortfolioRequest;
 use App\Http\Requests\UpdatePortfolioRequest;
@@ -16,11 +15,16 @@ class PortfolioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $portfolios = Portfolio::withTrashed()->get();
+        $trashed = $request->input('trashed');
+        if($trashed){
+            $portfolio = Portfolio::onlyTrashed()->get();
+        }else{
+            $portfolio = Portfolio::all();
+        }
 
-        return view('portfolios.index', compact('portfolios'));
+        return view('portfolios.index', compact('portfolio'));
     }
 
     /**
@@ -42,11 +46,12 @@ class PortfolioController extends Controller
     public function store(StorePortfolioRequest $request)
     {
         $data = $request->validated();
+        //dd($data);
         $data ['slug'] = Str::slug($data['name']);
 
         $portfolio = Portfolio::create($data);
 
-        return redirect('portfolios.show',$portfolio);
+        return to_route('portfolios.show',$portfolio);
     }
 
     /**
@@ -82,11 +87,13 @@ class PortfolioController extends Controller
     {
         $data = $request->validated();
         
-        $data ['slug'] = Str::slug($data['name']);
+        if($data['name'] !== $portfolio->name){
+            $data ['slug'] = Str::slug($data['name']);
+        }
 
         $portfolio->update($data);
 
-        return redirect('portfolios.show',$portfolio);
+        return to_route('portfolios.show',$portfolio);
     }
 
     /**
@@ -103,6 +110,6 @@ class PortfolioController extends Controller
             $portfolio->delete();
         }
 
-        return to_route('portfolios.index');
+        return back();
     }
 }

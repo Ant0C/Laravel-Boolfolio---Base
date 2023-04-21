@@ -18,37 +18,43 @@
         </div>
         <div class="container">
             <div class="row">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Customer</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Slug</th>
-                                <th scope="col">Url</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        @foreach ($portfolios as $item)
-                            <tr>
-                                <th scope="row">{{ $item->id }}</th>
-                                <td><a href="{{ route('portfolios.show',$item) }}">{{ $item->name }}</a></td>
-                                <td>{{ $item->customer }}</td>
-                                <td>{{ $item->description }}</td>
-                                <td>{{ $item->slug }}</td>
-                                <td>{{ $item->url }}</td>
-                                <td>
-                                    <form action="{{route('portfolios.destroy',$item)}}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <input type="submit" class="btn btn-danger" value="DELETE">
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Customer</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Slug</th>
+                            <th scope="col">Url</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach ($portfolio as $item)
+                        <tr>
+                            <th scope="row">{{ $item->id }}</th>
+                            <td>{{ $item->name }}</a></td>
+                            <td>{{ $item->customer }}</td>
+                            <td>{{ $item->description }}</td>
+                            <td>{{ $item->slug }}</td>
+                            <td>{{ $item->url }}</td>
+                            <td>
+                                <form action="{{route('portfolios.destroy',$item)}}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                    <input type="submit" class="btn btn-danger" value="DELETE">
+                                </form>
+                                <a href="{{route('portfolios.edit',$item)}}">
+                                    <input type="submit" class="btn btn-primary" value="MODIFICA">
+                                </a>
+                                <a href="{{route('portfolios.show',$item)}}">
+                                    <input type="submit" class="btn btn-primary" value="VAI AL PROGETTO">
+                                </a>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

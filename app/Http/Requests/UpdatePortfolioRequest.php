@@ -25,10 +25,10 @@ class UpdatePortfolioRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=> ['required','max:200',Rule::unique('portfolios','name')->ignore($this->portfolio)],
-            'customer'=>['required','string'],
-            'description' => ['nullable','string'],
-            'url'=> ['nullable','url']
+            'name'=> ['required',Rule::unique('portfolios','name')->ignore($this->portfolio)],
+            'customer'=>'string',
+            'description' => 'string',
+            'url'=> 'url'
         ];
     }
 }
