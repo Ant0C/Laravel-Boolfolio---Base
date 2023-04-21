@@ -13,7 +13,7 @@ class StorePortfolioRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class StorePortfolioRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name'=> 'required|max:200|unique:portfolios,name',
+            'customer'=>'required|string',
+            'description' => 'nullable|string',
+            'url'=>'nullable|url'
         ];
     }
 }

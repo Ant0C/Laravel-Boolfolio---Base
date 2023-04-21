@@ -38,6 +38,13 @@
                                 <td>{{ $item->description }}</td>
                                 <td>{{ $item->slug }}</td>
                                 <td>{{ $item->url }}</td>
+                                <td>
+                                    <form action="{{route('portfolios.destroy',$item)}}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <input type="submit" class="btn btn-danger" value="DELETE">
+                                    </form>
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>

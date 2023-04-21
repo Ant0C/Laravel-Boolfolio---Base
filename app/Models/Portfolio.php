@@ -9,4 +9,12 @@ use Illuminate\Database\Eloquent\softDeletes;
 class Portfolio extends Model
 {
     use HasFactory, softDeletes;
+
+    protected $fillable = [
+        'name',
+        'customer',
+        'description',
+        'slug',
+        'url',
+    ];
 }

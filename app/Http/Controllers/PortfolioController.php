@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StorePortfolioRequest;
 use App\Http\Requests\UpdatePortfolioRequest;
 use App\Models\Portfolio;
+use Illuminate\Support\Str;
 
 class PortfolioController extends Controller
 {
@@ -17,7 +18,7 @@ class PortfolioController extends Controller
      */
     public function index()
     {
-        $portfolios = Portfolio::all();
+        $portfolios = Portfolio::withTrashed()->get();
 
         return view('portfolios.index', compact('portfolios'));
     }
@@ -40,7 +41,12 @@ class PortfolioController extends Controller
      */
     public function store(StorePortfolioRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data ['slug'] = Str::slug($data['name']);
+
+        $portfolio = Portfolio::create($data);
+
+        return redirect('portfolios.show',$portfolio);
     }
 
     /**
@@ -74,7 +80,13 @@ class PortfolioController extends Controller
      */
     public function update(UpdatePortfolioRequest $request, Portfolio $portfolio)
     {
-        //
+        $data = $request->validated();
+        
+        $data ['slug'] = Str::slug($data['name']);
+
+        $portfolio->update($data);
+
+        return redirect('portfolios.show',$portfolio);
     }
 
     /**
@@ -85,7 +97,11 @@ class PortfolioController extends Controller
      */
     public function destroy(Portfolio $portfolio)
     {
-        $portfolio->delete();
+        if($portfolio->trashed()){
+            $portfolio->forceDelete();
+        } else{
+            $portfolio->delete();
+        }
 
         return to_route('portfolios.index');
     }
